@@ -22,8 +22,8 @@ Nfreq = 1000;
 omg = logspace(log10(1e13),log10(3e14),Nfreq)';
 
 %% Dielectric Properties
-epslver = zeros(length(omg),N);
-epslpara = zeros(length(omg),N);
+epslver = zeros(length(omg),N); % perpendicular to optical axis (in plane)
+epslpara = zeros(length(omg),N); % parallel to optical axis (out of plane)
 
 for i = 1:N
     epslif = str2func(['DielecFun',LayerNames{i}]);
