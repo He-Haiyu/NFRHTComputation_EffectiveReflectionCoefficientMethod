@@ -107,8 +107,8 @@ for j = 1:length(omg) % one j for one omega value
     ITp = @(x) (1 - abs(Rp0(x)).^2);
     
     % Far field energy flux
-    qs(j) = integral(@(x) ITs(x).*x,0,k0j,'RelTol',rTol,'AbsTol',aTol)*Thetaomgj/2/pi^2;
-    qp(j) = integral(@(x) ITp(x).*x,0,k0j,'RelTol',rTol,'AbsTol',aTol)*Thetaomgj/2/pi^2;
+    qs(j) = integral(@(x) ITs(x).*x,0,k0j,'RelTol',rTol,'AbsTol',aTol)*Thetaomgj/4/pi^2;
+    qp(j) = integral(@(x) ITp(x).*x,0,k0j,'RelTol',rTol,'AbsTol',aTol)*Thetaomgj/4/pi^2;
     
     % inflector
     if mod(j,100) == 0
