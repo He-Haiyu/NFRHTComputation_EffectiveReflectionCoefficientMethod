@@ -20,11 +20,13 @@ d = LayerThicknesses; % for simplicity
 Nfreq = 500;
 % angular ferquencies
 % omg = logspace(log10(1e13),log10(3e14),Nfreq)';
-% omg = linspace(1.1e15,4.7115e15,Nfreq)';
+omg = linspace(1.1e15,4.7115e15,Nfreq)';
 
 % wavelengths
-lambda = linspace(0.4e-6,3e-6,Nfreq)';
-omg = c0 ./ lambda *2*pi;
+lambda = c0*2*pi ./ omg;
+
+% eVs
+eVs = hPb*omg / ec;
 
 %% Dielectric Properties
 epslver = zeros(length(omg),N); % perpendicular to optical axis (in plane)
@@ -125,18 +127,30 @@ end
 q = qs + qp;
 
 
-%% Plot
-% % Initialize figure
-% fignm = ['SpecQ'];
-% h = figure('Name',fignm); ah = gca;
-% set(ah,'Fontname','times','Fontsize',12,'Yscale','log');
-% xlabel('\omega (rad/s)');
-% ylabel('Q_\omega (W m^-^2 rad^-^1 s)');
-% axis([omg(1),omg(end),-inf,inf]);
-% hold all;
+%% Plot Frequency
+% Initialize figure
+fignm = ['SpecQ_frequency'];
+h = figure('Name',fignm); ah = gca;
+set(ah,'Fontname','times','Fontsize',12,'Yscale','log');
+xlabel('\omega (rad/s)');
+ylabel('Q_\omega (W m^-^2 rad^-^1 s)');
+axis([omg(1),omg(end),-inf,inf]);
+hold all;
 
-% clear fignm figtitle;
+clear fignm figtitle;
 % plot
-figure; ah =gca;
-plot(ah,lambda,abs(q),'LineWidth',1.5);
+plot(ah,omg,abs(q),'LineWidth',1.5);
+
+%% Plot Wavelength
+fignm = ['SpecQ_wavelength'];
+h = figure('Name',fignm); ah = gca;
+set(ah,'Fontname','times','Fontsize',12,'Yscale','log');
+xlabel('\lambda (\mum)');
+ylabel('Q_\omega (W m^-^2 \mum^-^1 s)');
+axis([min(lambda(1),lambda(end)),max(lambda(1),lambda(end)),-inf,inf]);
+hold all;
+
+clear fignm figtitle;
+% plot
+plot(ah,lambda,(2*pi*c0./lambda).*abs(q),'LineWidth',1.5);
 
