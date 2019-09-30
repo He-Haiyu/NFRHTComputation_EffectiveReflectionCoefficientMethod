@@ -10,16 +10,23 @@ eV2cm = 8065.5443; % Conversion eV to 1/cm
 cm2radps = 2*pi*c0*100; % Conversion from 1/cm to rad/s
 
 %% Initiation
-LayerNames = {'VO2','VO2'}; % from top to bottom
-LayerThicknesses = [1,1];
-T = 330;
+LayerNames = {'hBN','Gr','hBN','SiO2','Si'}; % from top to bottom
+LayerThicknesses = [11.5e-9,0.34e-9,23.0e-9,285e-9,1];
+T = 2000;
 
 N = length(LayerNames);
 d = LayerThicknesses; % for simplicity
 %% Omega
-% 
-Nfreq = 1000;
-omg = logspace(log10(1e13),log10(3e14),Nfreq)';
+Nfreq = 500;
+% angular ferquencies
+% omg = logspace(log10(1e13),log10(3e14),Nfreq)';
+omg = linspace(1.1e15,4.7115e15,Nfreq)';
+
+% wavelengths
+lambda = c0*2*pi ./ omg;
+
+% eVs
+eVs = hPb*omg / ec;
 
 %% Dielectric Properties
 epslver = zeros(length(omg),N); % perpendicular to optical axis (in plane)
@@ -41,8 +48,8 @@ Thetaomg = hPb*omg ./ (exp(hPb*omg/kB/T) - 1);
 rTol = 1e-7;
 aTol = 1e-7;
 % Initialize q arry
-qs = zeros(length(omg));
-qp = zeros(length(omg));
+qs = zeros(length(omg),1);
+qp = zeros(length(omg),1);
 q = qs + qp;
 
 
@@ -55,7 +62,7 @@ for j = 1:length(omg) % one j for one omega value
     epslparaj = epslpara(j,:);
 
     Thetaomgj = Thetaomg(j);
-        
+ 
     % Wavevector component perpendicular to interface
     gm0 = @(x) sqrt(k0j^2-x.^2); 
     
@@ -120,9 +127,9 @@ end
 q = qs + qp;
 
 
-%% Plot
+%% Plot Frequency
 % Initialize figure
-fignm = ['SpecQ'];
+fignm = ['SpecQ_frequency'];
 h = figure('Name',fignm); ah = gca;
 set(ah,'Fontname','times','Fontsize',12,'Yscale','log');
 xlabel('\omega (rad/s)');
@@ -133,4 +140,17 @@ hold all;
 clear fignm figtitle;
 % plot
 plot(ah,omg,abs(q),'LineWidth',1.5);
+
+%% Plot Wavelength
+fignm = ['SpecQ_wavelength'];
+h = figure('Name',fignm); ah = gca;
+set(ah,'Fontname','times','Fontsize',12,'Yscale','log');
+xlabel('\lambda (\mum)');
+ylabel('Q_\omega (W m^-^2 \mum^-^1 s)');
+axis([min(lambda(1),lambda(end)),max(lambda(1),lambda(end)),-inf,inf]);
+hold all;
+
+clear fignm figtitle;
+% plot
+plot(ah,lambda,(2*pi*c0./lambda).*abs(q),'LineWidth',1.5);
 
