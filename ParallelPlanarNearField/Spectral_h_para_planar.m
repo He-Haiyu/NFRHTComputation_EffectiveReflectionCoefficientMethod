@@ -4,15 +4,15 @@
 clear;clc;format long
 
 %% INI, at least two layers for each side
-MaterialB = {'BN','BN'}; % from the gap size
-MaterialT = {'VO2','VO2'}; % from the gap size
+MaterialB = {'SiO2','SiO2'}; % from the gap size
+MaterialT = {'SiO2','SiO2'}; % from the gap size
 ThicknessB = [5e-7,1];
 ThicknessT = [0.5e-6,1];
 
 gp = 1e-7; % gap size
 
 % Temperature
-T = 330;
+T = 300;
 % T difference
 dT = 0.001;
 
@@ -207,7 +207,7 @@ hevp = trapz(omg,hevomgp);
 % print heat fluxes
 hunit = ' W/(m^2 rad/s K)';
 disp(['In: ',hunit]);
-disp(['h = ',num2str(hprs+hprp+hevs+hevp),'hs = ',num2str(hprs+hevs),', hp = ',num2str(hprp+hevp)]);
+disp(['h = ',num2str(hprs+hprp+hevs+hevp),', hs = ',num2str(hprs+hevs),', hp = ',num2str(hprp+hevp)]);
 disp(['hpr = ',num2str(hprs+hprp),', hprs = ',num2str(hprs),', hprp = ',num2str(hprp)]);
 disp(['hev = ',num2str(hevs+hevp),', hevs = ',num2str(hevs),', hevp = ',num2str(hevp)]);
 
