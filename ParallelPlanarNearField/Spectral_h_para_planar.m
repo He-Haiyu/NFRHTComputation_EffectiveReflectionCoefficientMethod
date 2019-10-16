@@ -1,7 +1,7 @@
 %%
 % Clear the enviroment
 % close all;
-clear;clc;format long
+clear;format long
 
 %% INI, at least two layers for each side
 MaterialB = {'SiO2','SiO2'}; % from the gap size
@@ -12,7 +12,7 @@ ThicknessT = [0.5e-6,1];
 gp = 1e-7; % gap size
 
 % Temperature
-T = 300;
+T = 1000;
 % T difference
 dT = 0.001;
 
