@@ -1,13 +1,15 @@
 %%
 % Clear the enviroment
-close all;
-clear;clc;format long
+% close all;
+clear;
+% clc;
+format long
 
 %% INI, at least two layers for each side
-MaterialB = {'BN','BN'}; % from the gap
-MaterialT = {'VO2','VO2'}; % from the gap
-ThicknessB = [5e-7,1];
-ThicknessT = [0.5e-6,1];
+MaterialB = {'BN','Au'}; % from the gap size
+MaterialT = {'VO2','GaN','VO2','GaN','Au'}; % from the gap size
+ThicknessB = [500e-9,1];
+ThicknessT = [10e-9,255e-9,45e-9,255e-9,1];
 
 gp = 1e-7; % gap size
 
@@ -29,11 +31,11 @@ eV2cm = 8065.5443; % Conversion eV to 1/cm
 cm2radps = 2*pi*c0*100; % Conversion from 1/cm to rad/s
 
 %% Omega and k
-Nfreq = 1000;
+Nfreq = 1500;
 % omgeV = logspace(log10(0.0025),log10(0.32),Nfreq)'; % Energy, eV
 % omg = omgeV*ec/hPb; % Angular frequency, rad/s
 
-omg = logspace(log10(1e13),log10(3e14),Nfreq)'; % Angular frequency, rad/s
+omg = logspace(log10(1e13),log10(5e14),Nfreq)'; % Angular frequency, rad/s
 omgeV = omg*hPb/ec; % Energy, eV
 
 % nv = omg/2/pi; % Frequency, Hz
@@ -180,9 +182,9 @@ for j = 1:length(omg)
     qevomgs(j) = integral(@(x) Tevs(x).*x,k0j,k0j+8*pi/gp,'RelTol',rTol,'AbsTol',aTol)*dThetaomgbtj/4/pi^2;
     qevomgp(j) = integral(@(x) Tevp(x).*x,k0j,k0j+8*pi/gp,'RelTol',rTol,'AbsTol',aTol)*dThetaomgbtj/4/pi^2;
     
-    if mod(j,100) == 0 % flag
-        j
-    end
+%     if mod(j,100) == 0 % flag
+%         j
+%     end
 end
 q = qpromgp+qpromgs+qevomgp+qevomgs;
 
