@@ -4,8 +4,8 @@ close all;
 clear;clc;format long
 
 %% INI, at least two layers for each side
-MaterialB = {'BN','BN'}; % from the gap size
-MaterialT = {'VO2','VO2'}; % from the gap size
+MaterialB = {'BN','BN'}; % from the gap
+MaterialT = {'VO2','VO2'}; % from the gap
 ThicknessB = [5e-7,1];
 ThicknessT = [0.5e-6,1];
 
